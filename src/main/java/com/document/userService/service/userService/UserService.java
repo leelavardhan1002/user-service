@@ -6,5 +6,7 @@ import java.util.UUID;
 
 public interface UserService {
     User getUserById(UUID id);
-    User saveUser(User user);
+    User findByEmail(String email);
+    User signup(User user);
+    String verifyOtpForUser(String email, String otp);
 }
