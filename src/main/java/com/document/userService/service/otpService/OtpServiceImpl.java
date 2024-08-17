@@ -10,6 +10,7 @@ import com.document.userService.repository.UserRepository;
 import com.document.userService.service.emailService.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -24,9 +25,12 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 @Slf4j
 public class OtpServiceImpl implements OtpService {
-    private final OtpRepository otpRepository;
-    private final UserRepository userRepository;
-    private final EmailService emailService;
+    @Autowired
+    OtpRepository otpRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    EmailService emailService;
     private final ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
 
     @Override

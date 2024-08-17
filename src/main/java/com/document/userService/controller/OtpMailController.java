@@ -2,7 +2,7 @@ package com.document.userService.controller;
 
 import com.document.userService.auth.JwtUtil;
 import com.document.userService.config.BasePaths;
-import com.document.userService.dto.GenerateOtpRequest;
+import com.document.userService.dto.request.GenerateOtpRequest;
 import com.document.userService.entity.user.User;
 import com.document.userService.enums.Role;
 import com.document.userService.exception.UserNotFoundException;
@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api" + BasePaths.BASE_PATH)
+    @RequestMapping("/api" + BasePaths.BASE_PATH_OTP)
 @RequiredArgsConstructor
 @Slf4j
 public class OtpMailController {
@@ -71,36 +71,6 @@ public class OtpMailController {
             return ResponseEntity.ok("OTP generated and saved");
         } catch (MailException mailException) {
             return new ResponseEntity<>("internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @SneakyThrows
-    @PostMapping("/verify-otp")
-    public ResponseEntity<String> verifyOTP(@RequestParam String otp, HttpServletRequest request) {
-        try {
-            Claims user = jwtUtil.resolveClaims(request);
-            User userDetails = userService.getUserById(UUID.fromString(user.getSubject()));
-
-            if (userDetails.getRole().equals(Role.ADMIN)) {
-                return new ResponseEntity<>(ACTION_NOT_PERMITTED_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-
-            String status = userService.verifyOtpForUser(userDetails.getEmail(), otp);
-            if (status.equals("verified")) {
-                log.info("OTP verified successfully. User is now verified.");
-                return new ResponseEntity<>(
-                        "OTP verified successfully. User is now verified.", HttpStatus.OK);
-            } else if (status.equals("User already verified")) {
-                log.info(status);
-                return new ResponseEntity<>(status, HttpStatus.OK);
-            } else {
-                log.info("not verified");
-                return new ResponseEntity<>("user not verified", HttpStatus.NOT_FOUND);
-            }
-
-        } catch (RuntimeException runtimeException) {
-            log.error(runtimeException.getMessage());
-            return ResponseEntity.badRequest().body(runtimeException.getMessage());
         }
     }
 }

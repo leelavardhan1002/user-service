@@ -6,6 +6,7 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class TokenValidationService {
 
-    private final JwtUtil jwtUtil;
+    @Autowired
+    JwtUtil jwtUtil;
 
     public ResponseEntity<String> validateToken(String token) {
         try {

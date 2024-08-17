@@ -1,4 +1,4 @@
-package com.document.userService.dto;
+package com.document.userService.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

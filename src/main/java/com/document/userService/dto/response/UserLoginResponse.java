@@ -1,4 +1,4 @@
-package com.document.userService.dto;
+package com.document.userService.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -1,7 +1,12 @@
 package com.document.userService.controller;
 
 import com.document.userService.auth.JwtUtil;
-import com.document.userService.dto.*;
+import com.document.userService.dto.request.LoginRequest;
+import com.document.userService.dto.request.SignupRequest;
+import com.document.userService.dto.response.ErrorResponse;
+import com.document.userService.dto.response.LoginResponse;
+import com.document.userService.dto.response.UserLoginResponse;
+import com.document.userService.dto.response.UserResponse;
 import com.document.userService.entity.user.User;
 import com.document.userService.enums.Role;
 import com.document.userService.service.userService.UserService;
@@ -19,14 +24,17 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/rest/auth")
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
 
-    private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil;
-    private final UserService userService;
+    @Autowired
+    AuthenticationManager authenticationManager;
+    @Autowired
+    JwtUtil jwtUtil;
+    @Autowired
+    UserService userService;
 
     @PostMapping("/customer/login")
     public ResponseEntity<Object> customerLogin(@RequestBody LoginRequest loginReq) {
